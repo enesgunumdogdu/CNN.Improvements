@@ -4,7 +4,6 @@ from keras.layers import Dense, Flatten
 from keras.optimizers import Adam
 from keras.datasets import mnist
 from keras.utils import to_categorical
-from keras import backend as K
 
 # Load dataset
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -15,7 +14,7 @@ y_test = to_categorical(y_test, 10)
 # Reshape data to fit model input
 x_train = x_train.reshape((x_train.shape[0], 28, 28, 1))
 x_test = x_test.reshape((x_test.shape[0], 28, 28, 1))
-# Define a CNN model @TODO improving the model
+# Define a CNN model
 model = Sequential()
 model.add(Flatten(input_shape=(28, 28, 1)))
 model.add(Dense(128, activation='relu'))
