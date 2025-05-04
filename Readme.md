@@ -2,6 +2,9 @@
 
 This project implements a Convolutional Neural Network (CNN) for digit classification with an interactive web interface. Users can draw digits and get real-time predictions from the trained model.
 
+![image](https://github.com/user-attachments/assets/3db0ee60-03d2-4b06-ab22-72a1e940685a)
+
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
