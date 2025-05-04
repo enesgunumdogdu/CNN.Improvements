@@ -27,17 +27,17 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Get the base64 image data from the request
         data = request.get_json()
         image_data = re.sub('^data:image/.+;base64,', '', data['image'])
         
-        # Convert base64 to image
         image = Image.open(io.BytesIO(base64.b64decode(image_data)))
         
-        # Preprocess the image
         image = image.resize((28, 28))
         image = image.convert('L')  # Convert to grayscale
+        
         image_array = np.array(image)
+        image_array = 255 - image_array
+        
         image_array = image_array.reshape(1, 28, 28, 1)
         image_array = image_array.astype('float32') / 255
         
@@ -45,6 +45,14 @@ def predict():
         prediction = model.predict(image_array)
         predicted_digit = np.argmax(prediction[0])
         confidence = float(prediction[0][predicted_digit])
+        
+        # Only return prediction if confidence is above threshold
+        if confidence < 0.5:
+            return jsonify({
+                'prediction': None,
+                'confidence': float(confidence),
+                'message': 'Drawing is not clear enough'
+            })
         
         return jsonify({
             'prediction': int(predicted_digit),

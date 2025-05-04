@@ -138,9 +138,14 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('prediction').textContent = data.prediction;
-                document.getElementById('confidence').textContent = 
-                    `Confidence: ${(data.confidence * 100).toFixed(2)}%`;
+                if (data.prediction === null) {
+                    document.getElementById('prediction').textContent = '?';
+                    document.getElementById('confidence').textContent = data.message;
+                } else {
+                    document.getElementById('prediction').textContent = data.prediction;
+                    document.getElementById('confidence').textContent = 
+                        `Confidence: ${(data.confidence * 100).toFixed(2)}%`;
+                }
             })
             .catch(error => console.error('Error:', error));
         }
